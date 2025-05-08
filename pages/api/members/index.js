@@ -1,4 +1,4 @@
-import { membersDb } from '../../../utils/db';
+import { membersDb } from '@/utils/db';
 
 export default function handler(req, res) {
     const { method } = req;

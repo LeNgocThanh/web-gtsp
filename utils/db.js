@@ -26,4 +26,9 @@ const membersDb = new Datastore({
   autoload: true,
 });
 
-export { productsDb, articlesDb, businessPartnerDb, newsDb, membersDb };
+const homeDb = new Datastore({
+  filename: path.join(process.cwd(), 'database/home.db'),
+  autoload: true,
+});
+
+export { productsDb, articlesDb, businessPartnerDb, newsDb, membersDb, homeDb };

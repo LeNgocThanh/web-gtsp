@@ -1,6 +1,7 @@
 const Header_admin = () => {
     // Dữ liệu menu theo ngôn ngữ
     const menuData = [
+        { label: 'Home', href: `/admin/adminProducts` },
         { label: 'Sản phẩm', href: `/admin/adminProducts` },
         { label: 'Tin Tức', href: `/admin/adminNews` },
         { label: 'Nông Trang', href: `/admin/adminMembers` }

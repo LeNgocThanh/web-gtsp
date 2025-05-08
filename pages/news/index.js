@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 const NewsPage = () => {
     const [newsList, setNewsList] = useState([]);
-    const [selectedNews, setSelectedNews] = useState(null); // Tin tức được chọn để hiển thị chi tiết
+    const [selectedNews, setSelectedNews] = useState(null); 
     const router = useRouter();
       const [language, setLanguage] = useState('vi'); // Ngôn ngữ mặc định là tiếng Việt
     
@@ -65,7 +65,7 @@ const NewsPage = () => {
                         : 'text-blue-500 hover:text-blue-700' // Màu mặc định và khi hover
                 }`}
             >
-                {news.title}
+                {language === 'vi'? news.title : news.en_title}
             </button>
             {/* Hiển thị createTime dưới tiêu đề */}
             <p className="text-sm text-gray-500 mt-1">
@@ -78,11 +78,11 @@ const NewsPage = () => {
             {/* Hiển thị chi tiết tin tức */}
             {selectedNews && (
                 <div className="mt-8 p-4 bg-white shadow-md rounded-lg">
-                    <h2 className="text-xl font-bold mb-4">{selectedNews.title}</h2>
+                    <h2 className="text-xl font-bold mb-4">{language==='vi'? selectedNews.title : selectedNews.en_title}</h2>
                     <p className="text-sm text-gray-500 mt-1">
                 {new Date(selectedNews.createTime || '2000-01-01').toLocaleString()}
             </p>
-                    <p className="whitespace-pre-line text-gray-700 mb-4">{selectedNews.details}</p>
+                    <p className="whitespace-pre-line text-gray-700 mb-4">{language==='vi'? selectedNews.details : selectedNews.en_details}</p>
 
                     {/* Hiển thị danh sách ảnh */}
                     {Array.isArray(selectedNews.imagesUrl) && selectedNews.imagesUrl.length > 0 && (
@@ -124,7 +124,7 @@ const NewsPage = () => {
                                     rel="noopener noreferrer"
                                     className="text-blue-500 underline"
                                 >
-                                    Xem video
+                                   {language === 'vi' ? 'Xem video' : 'Watch video'}
                                 </a>
                             )}
                         </div>
@@ -135,7 +135,7 @@ const NewsPage = () => {
                         onClick={() => setSelectedNews(null)}
                         className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mt-4"
                     >
-                        Quay lại danh sách
+                       {language === 'vi' ? 'Quay lại danh sách' : 'Back to list'}
                     </button>
                 </div>
             )}

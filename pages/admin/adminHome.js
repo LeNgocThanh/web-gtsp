@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header_admin from '../../components/header_admin';
 
-const AdminNews = () => {
+const AdminHome = () => {
     const [newsList, setNewsList] = useState([]);
     const [newNews, setNewNews] = useState({
         title: '',
@@ -15,7 +15,7 @@ const AdminNews = () => {
 
     // Lấy danh sách tin tức
     useEffect(() => {
-        fetch('/api/news')
+        fetch('/api/home')
             .then((res) => res.json())
             .then((data) => {
                 // Sắp xếp danh sách tin tức theo createTime từ gần nhất đến xa nhất
@@ -46,7 +46,7 @@ const AdminNews = () => {
                     formData.append('images', file);
                 });
     
-                const uploadResponse = await fetch('/api/uploads?folder=news', {
+                const uploadResponse = await fetch('/api/uploads?folder=home', {
                     method: 'POST',
                     body: formData,
                 });
@@ -62,7 +62,7 @@ const AdminNews = () => {
             console.log('abc',imagesUrl);
     
             // Gửi thông tin tin tức đến API
-            const response = await fetch('/api/news', {
+            const response = await fetch('/api/home', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -106,7 +106,7 @@ const AdminNews = () => {
                     formData.append('images', file);
                 });
     
-                const uploadResponse = await fetch('/api/uploads?folder=news', {
+                const uploadResponse = await fetch('/api/uploads?folder=home', {
                     method: 'POST',
                     body: formData,
                 });
@@ -122,7 +122,7 @@ const AdminNews = () => {
             console.log('abc',imagesUrl);
     
             // Gửi thông tin cập nhật đến API
-            const response = await fetch('/api/news', {
+            const response = await fetch('/api/home', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -153,7 +153,7 @@ const AdminNews = () => {
 
     const handleDeleteNews = async (id) => {
     try {
-        const response = await fetch(`/api/news?id=${id}`, {
+        const response = await fetch(`/api/home?id=${id}`, {
             method: 'DELETE',
         });
 
@@ -316,4 +316,4 @@ const AdminNews = () => {
     );
 };
 
-export default AdminNews;
+export default AdminHome;

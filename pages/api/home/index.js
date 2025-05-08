@@ -1,4 +1,4 @@
-import { newsDb } from '@/utils/db';
+import { homeDb } from '@/utils/db';
 // Khởi tạo cơ sở dữ liệu NeDB
 
 
@@ -7,7 +7,7 @@ export default function handler(req, res) {
 
     switch (method) {
         case 'GET': // Lấy danh sách tin tức
-            newsDb.find({}, (err, docs) => {
+            homeDb.find({}, (err, docs) => {
                 if (err) {
                     return res.status(500).json({ error: 'Lỗi khi lấy danh sách tin tức' });
                 }
@@ -21,7 +21,7 @@ export default function handler(req, res) {
                 return res.status(400).json({ error: 'Thiếu thông tin tiêu đề hoặc chi tiết' });
             }
             newNews.createTime = new Date().toISOString();
-            newsDb.insert(newNews, (err, doc) => {
+            homeDb.insert(newNews, (err, doc) => {
                 if (err) {
                     return res.status(500).json({ error: 'Lỗi khi thêm tin tức' });
                 }
@@ -34,7 +34,7 @@ export default function handler(req, res) {
             if (!_id) {
                 return res.status(400).json({ error: 'Thiếu ID tin tức để cập nhật' });
             }
-            newsDb.update({ _id }, { $set: updatedData }, {}, (err, numReplaced) => {
+            homeDb.update({ _id }, { $set: updatedData }, {}, (err, numReplaced) => {
                 if (err) {
                     return res.status(500).json({ error: 'Lỗi khi cập nhật tin tức' });
                 }
@@ -47,7 +47,7 @@ export default function handler(req, res) {
             if (!id) {
                 return res.status(400).json({ error: 'Thiếu ID tin tức để xóa' });
             }
-            newsDb.remove({ _id: id }, {}, (err, numRemoved) => {
+            homeDb.remove({ _id: id }, {}, (err, numRemoved) => {
                 if (err) {
                     return res.status(500).json({ error: 'Lỗi khi xóa tin tức' });
                 }
