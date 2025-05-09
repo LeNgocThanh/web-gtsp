@@ -119,6 +119,22 @@ export default function AdminProducts() {
 
   const handleDelete = async (productId) => {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+      const productToDelete = products.find((product) => product.id === productId);
+      if (productToDelete) {
+        // Tạo danh sách tất cả các đường dẫn ảnh cần xóa
+        const filePaths = [
+            ...productToDelete.images, // Ảnh chính của sản phẩm
+            ...productToDelete.productDetails.flatMap((detail) => detail.imageUrl), // Ảnh trong productDetails
+        ];
+
+        // Gọi API xóa ảnh
+        if (filePaths.length > 0) {
+            await axios.delete('/api/uploads', {
+                headers: { 'Content-Type': 'application/json' },
+                data: { filePaths }, // Gửi danh sách đường dẫn ảnh
+            });
+        }
+    }
       await axios.delete(`/api/products?id=${productId}`);
       alert('Sản phẩm đã được xóa!');
       fetchProducts();

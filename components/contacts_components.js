@@ -11,7 +11,7 @@ import React, { useState } from 'react';
  * Component hiển thị danh sách các ứng dụng chat.
  */
 const Contacts = ({language}) => {
-    const [isVisible, setIsVisible] = useState(false);
+   // const [isVisible, setIsVisible] = useState(false);
     const contactText1 = {
         vi: 'Ẩn liên hệ',
         en: 'hide contact',
@@ -22,51 +22,44 @@ const Contacts = ({language}) => {
     };
 
     const chatApps = [
+        // {
+        //     name: 'Call me',
+        //     iconUrl: '/icons/call.jpg',
+        //     link: '',
+        // },
         {
-            name: 'Call me',
-            iconUrl: '/icons/call.jpg',
-            link: '',
+            name: '',
+            iconUrl: '/icons/WhatsApp.svg',
+            link: 'https://wa.me/84837495888',
         },
+        // {
+        //     name: 'Telegram',
+        //     iconUrl: '/icons/telegram.png',
+        //     link: 'https://t.me/84837495888',
+        // },
         {
-            name: 'Whatsapp',
-            iconUrl: '/icons/whatsApp.svg',
-            link: '',
-        },
-        {
-            name: 'Telegram',
-            iconUrl: '/icons/telegram.png',
-            link: 'https://t.me/yourusername',
-        },
-        {
-            name: 'Zalo',
+            name: '',
             iconUrl: '/icons/zalo.svg',
-            link: 'https://zalo.me/yourusername',
+            link: 'https://zalo.me/84837495888',
         },
-        {
-            name: 'Facebook Messenger',
-            iconUrl: '/icons/Facebook_Messenger.svg',
-            link: 'https://m.me/yourusername',
-        },
-        {
-            name: 'Email',
-            iconUrl: '/icons/email.svg',
-            link: '',
-        },
+        // {
+        //     name: 'Facebook Messenger',
+        //     iconUrl: '/icons/Facebook_Messenger.svg',
+        //     link: 'https://m.me/84837495888',
+        // },
+        // {
+        //     name: 'Email',
+        //     iconUrl: '/icons/email.svg',
+        //     link: 'mailto:your-email@example.com?subject=Tiêu đề Email&body=Nội dung email">Gửi Email',
+        // },
             ];
 
     return (
         <div className="fixed bottom-4 right-4 flex flex-col items-end space-y-2">
-            {/* Nút toggle */}
-            <button
-                onClick={() => setIsVisible((prev) => !prev)}
-                className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
-            >
-                {isVisible ? contactText1[language] : contactText2[language]}
-            </button>
+            {/* Nút toggle */}         
 
-            {/* Hiển thị danh sách contact nếu isVisible là true */}
-            {isVisible && (
-                <div className="flex flex-col space-y-2 mt-2">
+            {/* Hiển thị danh sách contact nếu isVisible là true */}         
+                <div className="flex flex-col space-y-2 mt-2 bg-black p-1 rounded shadow-lg">
                     {chatApps.map((app) => (
                         <a
                             key={app.name}
@@ -83,8 +76,7 @@ const Contacts = ({language}) => {
                             <span>{app.name}</span>
                         </a>
                     ))}
-                </div>
-            )}
+                </div>            
         </div>
     );
 };

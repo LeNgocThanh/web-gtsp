@@ -106,10 +106,7 @@ const NewsPage = () => {
                         <div className="mt-4">
                             {selectedNews.videoUrl.includes('facebook.com') ? (
                                 <iframe
-                                    src={selectedNews.videoUrl.replace(
-                                        '/watch/?v=',
-                                        '/video/embed?video_id='
-                                    )}
+                                    src={'https://www.facebook.com/plugins/video.php?href='+selectedNews.videoUrl}
                                     width="560"
                                     height="315"
                                     frameBorder="0"

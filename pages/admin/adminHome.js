@@ -58,8 +58,7 @@ const AdminHome = () => {
                     alert('Lỗi khi upload ảnh!');
                     return;
                 }
-            }
-            console.log('abc',imagesUrl);
+            }         
     
             // Gửi thông tin tin tức đến API
             const response = await fetch('/api/home', {
@@ -73,12 +72,11 @@ const AdminHome = () => {
                     imagesUrl, // Đường dẫn ảnh đã upload
                     videoUrl: newNews.videoUrl || '',
                 }),
-            });
-    
-            if (response.ok) {
+            });             
+                if (response.ok) {
                 const addedNews = await response.json();
                 setNewsList((prev) => [...prev, addedNews]);
-                setNewNews({ title: '', en_title, details: '', en_details: '', imagesUrl: [], videoUrl: '' });
+                setNewNews({ title: '', en_title : '', details: '', en_details: '', imagesUrl: [], videoUrl: '' });
             } else {
                 alert('Lỗi khi thêm tin tức!');
             }
@@ -152,22 +150,34 @@ const AdminHome = () => {
     };
 
     const handleDeleteNews = async (id) => {
-    try {
-        const response = await fetch(`/api/home?id=${id}`, {
-            method: 'DELETE',
-        });
+        try {
+            const newsToDelete = newsList.find((news) => news._id === id);
 
-        if (response.ok) {
-            setNewsList((prev) => prev.filter((news) => news._id !== id));
-            alert('Xóa tin tức thành công!');
-        } else {
+            // Gọi API xóa ảnh
+            if (newsToDelete && newsToDelete.imagesUrl.length > 0) {
+                await fetch('/api/uploads', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filePaths: newsToDelete.imagesUrl }),
+                });
+            }
+
+            // Gọi API xóa tin tức
+            const response = await fetch(`/api/home?id=${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setNewsList((prev) => prev.filter((news) => news._id !== id));
+                alert('Xóa tin tức thành công!');
+            } else {
+                alert('Lỗi khi xóa tin tức!');
+            }
+        } catch (error) {
+            console.error(error);
             alert('Lỗi khi xóa tin tức!');
         }
-    } catch (error) {
-        console.error(error);
-        alert('Lỗi khi xóa tin tức!');
-    }
-};
+    };
 
     return (
         <div className="p-4">

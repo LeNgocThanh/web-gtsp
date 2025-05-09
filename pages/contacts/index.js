@@ -14,7 +14,7 @@ const sections = [
       vi: 'Địa chỉ: Liền kề F14, KĐT An Viên, Phường Vĩnh Nguyên, Thành phố Nha Trang, Tỉnh Khánh Hòa, Việt Nam.',
       en: 'Address: Liền kề F14, KĐT An Viên, Phường Vĩnh Nguyên, Thành phố Nha Trang, Tỉnh Khánh Hòa, Việt Nam.',
     },
-    imageUrl: '/images/index/491043297_122113722284828960_9167720821076332758_n.jpg',
+    imageUrl: '/images/index/dattrong.jpg',
     imageAlt: 'Công ty CP Giống Cây Trồng và Dược Liệu IVP',
   },
   {
@@ -26,7 +26,7 @@ const sections = [
       vi: 'Địa chỉ: Xã Nam Giang, huyện Thọ Xuân, tỉnh Thanh Hoá, Việt Nam.',
       en: 'Address: Xã Nam Giang, huyện Thọ Xuân, tỉnh Thanh Hoá, Việt Nam.',
     },
-    imageUrl: '/images/index/dattrong.jpg',
+    imageUrl: '/images/index/491043297_122113722284828960_9167720821076332758_n.jpg',
     imageAlt: 'Phòng LAB nuôi cấy mô hiện đại',
   },
   {

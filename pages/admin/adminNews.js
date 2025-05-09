@@ -152,22 +152,38 @@ const AdminNews = () => {
     };
 
     const handleDeleteNews = async (id) => {
-    try {
-        const response = await fetch(`/api/news?id=${id}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            setNewsList((prev) => prev.filter((news) => news._id !== id));
-            alert('Xóa tin tức thành công!');
-        } else {
+        try {
+            // Lấy tin tức cần xóa
+            const newsToDelete = newsList.find((news) => news._id === id);
+    
+            if (newsToDelete) {
+                // Gọi API xóa ảnh
+                const filePaths = newsToDelete.imagesUrl; // Lấy danh sách đường dẫn ảnh
+                if (filePaths.length > 0) {
+                    await fetch('/api/uploads', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ filePaths }), // Gửi danh sách đường dẫn ảnh
+                    });
+                }
+            }
+    
+            // Gọi API xóa tin tức
+            const response = await fetch(`/api/news?id=${id}`, {
+                method: 'DELETE',
+            });
+    
+            if (response.ok) {
+                setNewsList((prev) => prev.filter((news) => news._id !== id));
+                alert('Xóa tin tức thành công!');
+            } else {
+                alert('Lỗi khi xóa tin tức!');
+            }
+        } catch (error) {
+            console.error('Lỗi khi xóa tin tức:', error);
             alert('Lỗi khi xóa tin tức!');
         }
-    } catch (error) {
-        console.error(error);
-        alert('Lỗi khi xóa tin tức!');
-    }
-};
+    };
 
     return (
         <div className="p-4">
@@ -284,16 +300,28 @@ const AdminNews = () => {
                                     ))}
                                 </div>
                             )}
-                            {news.videoUrl && (
+                        {news.videoUrl && (
+                            news.videoUrl.includes('facebook.com') ? (
+                                <iframe
+                                    src={`https://www.facebook.com/plugins/video.php?href=${news.videoUrl}`}
+                                    width="560"
+                                    height="315"
+                                    style={{ border: 0 }}
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                                    allowFullScreen
+                                    className="rounded"
+                                ></iframe>
+                            ) : (
                                 <a
                                     href={news.videoUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-blue-500 underline mt-2 block"
+                                    className="text-blue-500 underline"
                                 >
-                                    Xem video
+                                   Xem video
                                 </a>
-                            )}
+                            )
+                        )}
                             <div className="mt-2">
                                 <button
                                     onClick={() => setEditingNews(news)}

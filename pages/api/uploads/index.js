@@ -50,8 +50,36 @@ export default async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ error: `Something went wrong: ${error.message}` });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
+  } else if (req.method === 'DELETE') {
+    try {
+        // Tự phân tích dữ liệu JSON từ req.body
+        const buffers = [];
+        for await (const chunk of req) {
+            buffers.push(chunk);
+        }
+        const body = JSON.parse(Buffer.concat(buffers).toString());
+        const { filePaths } = body;
+
+        if (!Array.isArray(filePaths)) {
+            return res.status(400).json({ error: 'filePaths must be an array' });
+        }
+
+        filePaths.forEach((filePath) => {
+            const absolutePath = path.join(process.cwd(), 'public', filePath); // Chuyển sang đường dẫn tuyệt đối
+            if (fs.existsSync(absolutePath)) {
+                fs.unlinkSync(absolutePath); // Xóa file
+            } else {
+                console.warn(`File not found: ${absolutePath}`); // Log nếu file không tồn tại
+            }
+        });
+
+        res.status(200).json({ success: true, message: 'Files deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting files:', error); // Log lỗi chi tiết
+        res.status(500).json({ error: `Something went wrong: ${error.message}` });
+    }
+} else {
+    res.setHeader('Allow', ['POST', 'DELETE']);
     res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 }

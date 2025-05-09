@@ -88,11 +88,11 @@ const AdminMember = () => {
                 }));
                 setNewMember({ memberName: '', Title: '', details: '', images: [], url: '' });
             } else {
-                alert('Lỗi khi thêm member!');
+                alert('Lỗi khi thêm Nông Trang!');
             }
         } catch (error) {
             console.error(error);
-            alert('Lỗi khi thêm member!');
+            alert('Lỗi khi thêm Nông Trang!');
         }
     };
 
@@ -104,7 +104,7 @@ const AdminMember = () => {
         }
     
         // Hiển thị thông báo xác nhận
-        const confirmEdit = window.confirm('Bạn có chắc chắn muốn chỉnh sửa member này?');
+        const confirmEdit = window.confirm('Bạn có chắc chắn muốn chỉnh sửa Nông Trang này?');
         if (!confirmEdit) return;
     
         try {
@@ -155,21 +155,37 @@ const AdminMember = () => {
                 }));
                 setEditingMember(null);
             } else {
-                alert('Lỗi khi chỉnh sửa member!');
+                alert('Lỗi khi chỉnh sửa Nông Trang!');
             }
         } catch (error) {
             console.error(error);
-            alert('Lỗi khi chỉnh sửa member!');
+            alert('Lỗi khi chỉnh sửa Nông Trang!');
         }
     };
     
     // Xử lý xóa member
     const handleDeleteMember = async (id, memberName) => {
         // Hiển thị thông báo xác nhận
-        const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa member này?');
+        const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa Nông Trang này?');
         if (!confirmDelete) return;
     
         try {
+            // Lấy member cần xóa
+            const memberToDelete = members[memberName].find((member) => member._id === id);
+    
+            if (memberToDelete) {
+                // Gọi API xóa ảnh
+                const filePaths = memberToDelete.images; // Lấy danh sách đường dẫn ảnh
+                if (filePaths.length > 0) {
+                    await fetch('/api/uploads', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ filePaths }), // Gửi danh sách đường dẫn ảnh
+                    });
+                }
+            }
+    
+            // Gọi API xóa member
             const response = await fetch(`/api/members?id=${id}`, {
                 method: 'DELETE',
             });
@@ -179,12 +195,13 @@ const AdminMember = () => {
                     ...prev,
                     [memberName]: prev[memberName].filter((member) => member._id !== id),
                 }));
+                alert('Xóa member thành công!');
             } else {
-                alert('Lỗi khi xóa member!');
+                alert('Lỗi khi xóa Nông Trang!');
             }
         } catch (error) {
-            console.error(error);
-            alert('Lỗi khi xóa member!');
+            console.error('Lỗi khi xóa Nông Trang:', error);
+            alert('Lỗi khi xóa Nông Trang!');
         }
     };
 
@@ -320,6 +337,28 @@ const AdminMember = () => {
                                         className="w-20 h-20 object-cover"
                                     />
                                 ))}
+                                {member.url && (
+                                     member.url.includes('facebook.com') ? (
+                                        <iframe
+                                            src={`https://www.facebook.com/plugins/video.php?href=${member.url}`}
+                                            width="560"
+                                            height="315"
+                                            style={{ border: 0 }}
+                                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                                            allowFullScreen
+                                            className="rounded"
+                                        ></iframe>
+                                    ) : (
+                                        <a
+                                            href={member.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-500 underline"
+                                        >
+                                           Xem video
+                                        </a>
+                                    ) )}
+
                                 <button
                                     onClick={() => setEditingMember(member)}
                                     className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"

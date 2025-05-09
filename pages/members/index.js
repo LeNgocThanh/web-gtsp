@@ -118,10 +118,8 @@ const MembersPage = () => {
                                             <div className="mt-4">
                                                 {member.url.includes('facebook.com') ? (
                                                     <iframe
-                                                        src={member.url.replace(
-                                                            '/watch/?v=',
-                                                            '/video/embed?video_id='
-                                                        )}
+                                                        src={'https://www.facebook.com/plugins/video.php?href='
+                                                            + member.url}
                                                         width="560"
                                                         height="315"
                                                         frameBorder="0"
